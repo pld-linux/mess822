@@ -10,7 +10,7 @@ Source0:	http://cr.yp.to/software/%{name}-%{version}.tar.gz
 Source1:	http://glen.alkohol.ee/pld/qmail/qmail-conf-20050131.3.tar.bz2
 # Source1-md5:	8336934dbecd48e9262ceeefc369bc70
 Patch0:		%{name}-errno.patch
-Patch1:		http://qmail.gurus.com/mess822-smtp-auth-patch.txt
+Patch1:		http://qmail.gurus.com/%{name}-smtp-auth-patch.txt
 Patch2:		http://www.inwonder.net/~dayan/soft/ofmipd-date-localtime.patch
 Patch3:		%{name}-quote.patch
 URL:		http://cr.yp.to/mess822.html
@@ -19,8 +19,9 @@ Requires:	qmail >= 1.03-56.87
 Requires:	ucspi-tcp >= 0.88
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_sysconfdir	/etc/ofmipd
 %define 	tcprules 	/etc/tcprules.d
-%define		supervise	%{_sysconfdir}/ofmipd
+%define		supervise	%{_sysconfdir}
 
 %description
 The mess822 package contains several applications that work with
@@ -43,11 +44,11 @@ Also this package contains patch for $QMAILQUEUE support.
 %description -l pl
 Pakiet mess822 zawiera kilka aplikacji dzia³aj±cych z qmailem:
 - ofmipd przepisuje wiadomo¶ci od prymitywnych klientów. Obs³uguje
-  bazê danych rozpoznawanych nadawców i linii From, korzystaj±c z cdb
-  w celu szybkiego wyszukiwania.
+  bazê danych rozpoznawanych nadawców i linii From, korzystaj±c z cdb w
+  celu szybkiego wyszukiwania.
 - new-inject to eksperymentalna nowa wersja programu qmail-inject.
-  Zawiera elastyczny mechanizm przepisywania nazw hostów sterowany
-  przez u¿ytkownika.
+  Zawiera elastyczny mechanizm przepisywania nazw hostów sterowany przez
+  u¿ytkownika.
 - iftocc mo¿e byæ u¿ywany w plikach .qmail. Sprawdza, czy znany adres
   jest wymieniony w To lub Cc.
 - 822header, 822field, 822date i 822received wyci±gaj± ró¿ne
@@ -89,7 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir},%{_includedir},%{_libdir}} \
 	$RPM_BUILD_ROOT{%{_mandir}/man{1,3,5,8},%{_sbindir}}
 
-install leapsecs.dat $RPM_BUILD_ROOT%{_sysconfdir}
+install leapsecs.dat $RPM_BUILD_ROOT/etc
 install ofmipname iftocc new-inject 822field 822header 822date \
 	822received 822print $RPM_BUILD_ROOT%{_bindir}
 install ofmipd $RPM_BUILD_ROOT%{_sbindir}
@@ -122,13 +123,13 @@ for d in '' log; do
 done
 
 # FIXME: filename and location?
-install ofmipname $RPM_BUILD_ROOT%{_sysconfdir}/ofmipd
+install ofmipname $RPM_BUILD_ROOT%{_sysconfdir}
 
 install -d $RPM_BUILD_ROOT%{tcprules}
 install Makefile.ofmipd $RPM_BUILD_ROOT%{tcprules}/Makefile.ofmip
 install tcp.ofmipd.sample $RPM_BUILD_ROOT%{tcprules}/tcp.ofmip
 > $RPM_BUILD_ROOT%{tcprules}/tcp.ofmip.cdb
-> $RPM_BUILD_ROOT%{_sysconfdir}/ofmipd/ofmipname.cdb
+> $RPM_BUILD_ROOT%{_sysconfdir}/ofmipname.cdb
 
 install -d $RPM_BUILD_ROOT/etc/qmail/control
 install conf-ofmipd $RPM_BUILD_ROOT/etc/qmail/control
@@ -146,8 +147,8 @@ if [ ! -e %{tcprules}/tcp.ofmip.cdb ]; then
 	chown qmaild:root %{tcprules}/tcp.ofmip.cdb
 	chmod 640 %{tcprules}/tcp.ofmip.cdb
 fi
-if [ ! -e %{_sysconfdir}/ofmipd/ofmipname.cdb ]; then
-	ofmipname %{_sysconfdir}/ofmipd/ofmipname.cdb %{_sysconfdir}/ofmipd/ofmipname.cdb.tmp < %{_sysconfdir}/ofmipd/ofmipname
+if [ ! -e %{_sysconfdir}/ofmipname.cdb ]; then
+	ofmipname %{_sysconfdir}/ofmipname.cdb %{_sysconfdir}/ofmipname.cdb.tmp < %{_sysconfdir}/ofmipname
 fi
 
 # reload services on upgrade
@@ -176,7 +177,7 @@ fi
 %defattr(644,root,root,755)
 %doc BLURB CHANGES INSTALL README THANKS TODO VERSION README.auth
 
-%{_sysconfdir}/leapsecs.dat
+/etc/leapsecs.dat
 %config(noreplace) %verify(not mtime) /etc/qmail/control/conf-ofmipd
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
@@ -199,8 +200,8 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{tcprules}/tcp.ofmip
 %attr(640,qmaild,root) %config(noreplace) %verify(not size mtime md5) %ghost %{tcprules}/tcp.ofmip.cdb
 
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ofmipd/ofmipname
-%attr(644,root,root) %config(noreplace) %verify(not size mtime md5) %ghost %{_sysconfdir}/ofmipd/ofmipname.cdb
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ofmipname
+%attr(644,root,root) %config(noreplace) %verify(not size mtime md5) %ghost %{_sysconfdir}/ofmipname.cdb
 
 %files devel
 %defattr(644,root,root,755)
