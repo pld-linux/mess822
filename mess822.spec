@@ -183,8 +183,6 @@ fi
 
 %{_mandir}/man[1358]/*
 
-%dir %{supervise}
-
 %attr(1755,root,root) %dir %{supervise}
 %attr(755,root,root) %{supervise}/run
 %attr(700,root,root) %dir %{supervise}/supervise
