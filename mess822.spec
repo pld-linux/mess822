@@ -2,7 +2,7 @@ Summary:	Collection of utilities for parsing Internet mail messages
 Summary(pl):	Zestaw narzêdzi do przetwarzania internetowych listów elektronicznych
 Name:		mess822
 Version:	0.58
-Release:	0.68
+Release:	1
 License:	http://cr.yp.to/distributors.html (free to use)
 Group:		Networking/Daemons
 Source0:	http://cr.yp.to/software/%{name}-%{version}.tar.gz
