@@ -1,0 +1,24 @@
+- fix for parsing mail header wrap being quoted as email comment
+in certain cases header which is wrapped to second line with tab, gets encoded as
+"\t" <address@example.com>
+
+- this also fixes for strange behaviour by outlook 2000+
+ http://www.faqts.com/knowledge_base/entry/edit/index.phtml?aid=6572
+
+-glen 2005-02-01
+--- mess822-0.58/mess822_quote.c~	1998-09-05 05:33:37.000000000 +0300
++++ mess822-0.58/mess822_quote.c	2005-02-01 20:15:48.000000000 +0200
+@@ -76,7 +76,12 @@
+   flagbracket = flagempty;
+ 
+   if (comment) {
+-    if (!doit(out,comment,str_len(comment),"\"","\" ")) return 0;
++    // skip if comment is tab char. confuses outlook 2000+
++    // glen 2005-02-01
++    if (!str_equal(comment, "\t")) {
++		if (!doit(out,comment,str_len(comment),"\"","\" ")) return 0;
++    }
++
+     flagbracket = 1;
+   }
+ 
