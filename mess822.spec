@@ -15,7 +15,6 @@ Patch3:		%{name}-quote.patch
 Requires:	daemontools >= 0.76-1.4
 Requires:	qmail >= 1.03-56.87
 Requires:	ucspi-tcp >= 0.88
-BuildRequires:	sed
 URL:		http://cr.yp.to/mess822.html
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
