@@ -2,18 +2,19 @@ Summary:	Collection of utilities for parsing Internet mail messages
 Summary(pl):	Zestaw narzêdzi do przetwarzania internetowych listów elektronicznych
 Name:		mess822
 Version:	0.58
-Release:	1
+Release:	1.2
 License:	http://cr.yp.to/distributors.html (free to use)
 Group:		Networking/Daemons
 Source0:	http://cr.yp.to/software/%{name}-%{version}.tar.gz
 # Source0-md5:	8ce4c29c994a70dcaa30140601213dbe
-Source1:	http://glen.alkohol.ee/pld/qmail/qmail-conf-20050131.3.tar.bz2
-# Source1-md5:	8336934dbecd48e9262ceeefc369bc70
+Source1:	http://glen.alkohol.ee/pld/qmail/qmail-conf-20050218.tar.bz2
+# Source1-md5:	f2d1e336fbc41f69890057bc392ac2a1
 Patch0:		%{name}-errno.patch
 Patch1:		http://qmail.gurus.com/%{name}-smtp-auth-patch.txt
 Patch2:		http://www.inwonder.net/~dayan/soft/ofmipd-date-localtime.patch
 Patch3:		%{name}-quote.patch
 URL:		http://cr.yp.to/mess822.html
+BuildRequires:	rpmbuild(macros) >= 1.177
 Requires:	daemontools >= 0.76-1.4
 Requires:	qmail >= 1.03-56.87
 Requires:	ucspi-tcp >= 0.88
@@ -80,9 +81,9 @@ Ten pakiet zawiera pliki nag³ówkowe i biblioteki programistyczne.
 %patch3 -p1
 
 %build
-echo %{__cc} %{rpmcflags} > conf-cc
-echo %{__cc} > conf-ld
-echo %{_prefix} > conf-home
+echo '%{__cc} %{rpmcflags}' > conf-cc
+echo '%{__cc}' > conf-ld
+echo '%{_prefix}' > conf-home
 %{__make}
 
 %install
@@ -91,9 +92,9 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir},%{_includedir},%{_libdir}} 
 	$RPM_BUILD_ROOT{%{_mandir}/man{1,3,5,8},%{_sbindir}}
 
 install leapsecs.dat $RPM_BUILD_ROOT/etc
-install ofmipname iftocc new-inject 822field 822header 822date \
+install ofmipname iftocc 822field 822header 822date \
 	822received 822print $RPM_BUILD_ROOT%{_bindir}
-install ofmipd $RPM_BUILD_ROOT%{_sbindir}
+install ofmipd new-inject $RPM_BUILD_ROOT%{_sbindir}
 
 install mess822.h $RPM_BUILD_ROOT%{_includedir}
 install mess822.a $RPM_BUILD_ROOT%{_libdir}
@@ -133,6 +134,7 @@ install tcp.ofmipd.sample $RPM_BUILD_ROOT%{tcprules}/tcp.ofmip
 
 install -d $RPM_BUILD_ROOT/etc/qmail/control
 install conf-ofmipd $RPM_BUILD_ROOT/etc/qmail/control
+cp ofmipd.pam ..
 cd ..
 
 sed -ne '/diff/q;p' %{PATCH1} > README.auth
@@ -155,10 +157,11 @@ fi
 if [ -d /service/ofmipd/supervise ]; then
 	svc -t /service/ofmipd{,/log}
 else
-	echo "Please setup host and port where the service listens in"
-	echo "/etc/qmail/control/conf-ofmipd and then start the service with supervise:"
-	echo "ln -s %{supervise} /service/ofmipd"
-	echo
+%banner %{name} -e <<EOF
+Please setup host and port where the service listens in
+/etc/qmail/control/conf-ofmipd and then start the service with supervise:
+ln -s %{supervise} /service/ofmipd
+EOF
 fi
 
 %preun
@@ -175,7 +178,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc BLURB CHANGES INSTALL README THANKS TODO VERSION README.auth
+%doc BLURB CHANGES INSTALL README THANKS TODO VERSION
+%doc README.auth ofmipd.pam
 
 /etc/leapsecs.dat
 %config(noreplace) %verify(not mtime) /etc/qmail/control/conf-ofmipd
@@ -197,11 +201,11 @@ fi
 %attr(750,root,root) %dir /var/log/archiv/ofmipd
 
 %{tcprules}/Makefile.ofmip
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{tcprules}/tcp.ofmip
-%attr(640,qmaild,root) %config(noreplace) %verify(not size mtime md5) %ghost %{tcprules}/tcp.ofmip.cdb
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{tcprules}/tcp.ofmip
+%attr(640,qmaild,root) %config(noreplace) %verify(not md5 mtime size) %ghost %{tcprules}/tcp.ofmip.cdb
 
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ofmipname
-%attr(644,root,root) %config(noreplace) %verify(not size mtime md5) %ghost %{_sysconfdir}/ofmipname.cdb
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ofmipname
+%attr(644,root,root) %config(noreplace) %verify(not md5 mtime size) %ghost %{_sysconfdir}/ofmipname.cdb
 
 %files devel
 %defattr(644,root,root,755)
