@@ -1,4 +1,5 @@
-Summary:	Collection of utilities for parsing Internet mail messages.
+Summary:	Collection of utilities for parsing Internet mail messages
+Summary(pl):	Zestaw narzêdzi do przetwarzania internetowych listów elektronicznych
 Name:		mess822
 Version:	0.58
 Release:	0.68
@@ -6,16 +7,16 @@ License:	http://cr.yp.to/distributors.html (free to use)
 Group:		Networking/Daemons
 Source0:	http://cr.yp.to/software/%{name}-%{version}.tar.gz
 # Source0-md5:	8ce4c29c994a70dcaa30140601213dbe
-Source1:    http://glen.alkohol.ee/pld/qmail/qmail-conf-20050131.3.tar.bz2
+Source1:	http://glen.alkohol.ee/pld/qmail/qmail-conf-20050131.3.tar.bz2
 # Source1-md5:	8336934dbecd48e9262ceeefc369bc70
 Patch0:		%{name}-errno.patch
 Patch1:		http://qmail.gurus.com/mess822-smtp-auth-patch.txt
 Patch2:		http://www.inwonder.net/~dayan/soft/ofmipd-date-localtime.patch
 Patch3:		%{name}-quote.patch
+URL:		http://cr.yp.to/mess822.html
 Requires:	daemontools >= 0.76-1.4
 Requires:	qmail >= 1.03-56.87
 Requires:	ucspi-tcp >= 0.88
-URL:		http://cr.yp.to/mess822.html
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	tcprules 	/etc/tcprules.d
@@ -39,15 +40,39 @@ authorization. Please read README.auth.
 
 Also this package contains patch for $QMAILQUEUE support.
 
+%description -l pl
+Pakiet mess822 zawiera kilka aplikacji dzia³aj±cych z qmailem:
+- ofmipd przepisuje wiadomo¶ci od prymitywnych klientów. Obs³uguje
+  bazê danych rozpoznawanych nadawców i linii From, korzystaj±c z cdb
+  w celu szybkiego wyszukiwania.
+- new-inject to eksperymentalna nowa wersja programu qmail-inject.
+  Zawiera elastyczny mechanizm przepisywania nazw hostów sterowany
+  przez u¿ytkownika.
+- iftocc mo¿e byæ u¿ywany w plikach .qmail. Sprawdza, czy znany adres
+  jest wymieniony w To lub Cc.
+- 822header, 822field, 822date i 822received wyci±gaj± ró¿ne
+  informacje z wiadomo¶ci.
+- 822print konwertuje wiadomo¶æ do formatu ³atwiejszego do
+  przeczytania.
+
+Dodatkowo pakiet zawiera obs³ugê autoryzacji LOGIN i PLAIN. Proszê
+przeczytaæ plik README.auth.
+
+Ten pakiet zawiera tak¿e ³atê do obs³ugi $QMAILQUEUE.
+
 %package devel
 Summary:	mess822 - Development header files and libraries
+Summary(pl):	mess822 - pliki nag³ówkowe i biblioteki programistyczne
 Group:		Development/Libraries
 
 %description devel
 This package contains the development header files and libraries.
 
+%description devel -l pl
+Ten pakiet zawiera pliki nag³ówkowe i biblioteki programistyczne.
+
 %prep
-%setup -q -a 1
+%setup -q -a1
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
@@ -156,9 +181,9 @@ fi
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
 
-%attr(644,root,root) %{_mandir}/man[1358]/*
+%{_mandir}/man[1358]/*
 
-%attr(755,root,root) %dir %{supervise}
+%dir %{supervise}
 
 %attr(1755,root,root) %dir %{supervise}
 %attr(755,root,root) %{supervise}/run
@@ -180,5 +205,6 @@ fi
 %attr(644,root,root) %config(noreplace) %verify(not size mtime md5) %ghost %{_sysconfdir}/ofmipd/ofmipname.cdb
 
 %files devel
-%attr(644,root,root) %{_includedir}/*.h
-%attr(644,root,root) %{_libdir}/*.a
+%defattr(644,root,root,755)
+%{_includedir}/*.h
+%{_libdir}/*.a
