@@ -2,13 +2,13 @@ Summary:	Collection of utilities for parsing Internet mail messages
 Summary(pl):	Zestaw narzêdzi do przetwarzania internetowych listów elektronicznych
 Name:		mess822
 Version:	0.58
-Release:	1.2
+Release:	1.9
 License:	http://cr.yp.to/distributors.html (free to use)
 Group:		Networking/Daemons
 Source0:	http://cr.yp.to/software/%{name}-%{version}.tar.gz
 # Source0-md5:	8ce4c29c994a70dcaa30140601213dbe
-Source1:	http://glen.alkohol.ee/pld/qmail/qmail-conf-20050218.tar.bz2
-# Source1-md5:	f2d1e336fbc41f69890057bc392ac2a1
+Source1:	http://glen.alkohol.ee/pld/qmail/qmail-conf-20050218.4.tar.bz2
+# Source1-md5:	2ccbe267544911f00429b56e648a4744
 Patch0:		%{name}-errno.patch
 Patch1:		http://qmail.gurus.com/%{name}-smtp-auth-patch.txt
 Patch2:		http://www.inwonder.net/~dayan/soft/ofmipd-date-localtime.patch
@@ -89,7 +89,7 @@ echo '%{_prefix}' > conf-home
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir},%{_includedir},%{_libdir}} \
-	$RPM_BUILD_ROOT{%{_mandir}/man{1,3,5,8},%{_sbindir}}
+	$RPM_BUILD_ROOT{%{_mandir}/man{1,3,5,8},%{_sbindir},/etc/pam.d}
 
 install leapsecs.dat $RPM_BUILD_ROOT/etc
 install ofmipname iftocc 822field 822header 822date \
@@ -123,8 +123,9 @@ for d in '' log; do
 	install run-ofmipd$d $RPM_BUILD_ROOT%{supervise}/$d/run
 done
 
-# FIXME: filename and location?
 install ofmipname $RPM_BUILD_ROOT%{_sysconfdir}
+install ofmipd-stunnel.conf $RPM_BUILD_ROOT%{_sysconfdir}/stunnel.conf
+install ofmipd-stunnel $RPM_BUILD_ROOT%{_sbindir}
 
 install -d $RPM_BUILD_ROOT%{tcprules}
 install Makefile.ofmipd $RPM_BUILD_ROOT%{tcprules}/Makefile.ofmip
@@ -134,7 +135,7 @@ install tcp.ofmipd.sample $RPM_BUILD_ROOT%{tcprules}/tcp.ofmip
 
 install -d $RPM_BUILD_ROOT/etc/qmail/control
 install conf-ofmipd $RPM_BUILD_ROOT/etc/qmail/control
-cp ofmipd.pam ..
+install ofmipd.pam $RPM_BUILD_ROOT/etc/pam.d/ofmipd
 cd ..
 
 sed -ne '/diff/q;p' %{PATCH1} > README.auth
@@ -178,8 +179,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc BLURB CHANGES INSTALL README THANKS TODO VERSION
-%doc README.auth ofmipd.pam
+%doc BLURB CHANGES INSTALL README THANKS TODO VERSION README.auth
 
 /etc/leapsecs.dat
 %config(noreplace) %verify(not mtime) /etc/qmail/control/conf-ofmipd
@@ -206,6 +206,9 @@ fi
 
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ofmipname
 %attr(644,root,root) %config(noreplace) %verify(not md5 mtime size) %ghost %{_sysconfdir}/ofmipname.cdb
+
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/stunnel.conf
+%config(noreplace) %verify(not md5 mtime size) /etc/pam.d/ofmipd
 
 %files devel
 %defattr(644,root,root,755)
