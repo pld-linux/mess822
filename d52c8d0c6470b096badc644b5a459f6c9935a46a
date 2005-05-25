@@ -1,0 +1,1 @@
+- removed BR: sed, it's required by rpm-build
