@@ -205,7 +205,7 @@ fi
 %attr(640,qmaild,root) %config(noreplace) %verify(not md5 mtime size) %ghost %{tcprules}/tcp.ofmip.cdb
 
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ofmipname
-%attr(644,root,root) %config(noreplace) %verify(not md5 mtime size) %ghost %{_sysconfdir}/ofmipname.cdb
+%config(noreplace) %verify(not md5 mtime size) %ghost %{_sysconfdir}/ofmipname.cdb
 
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/stunnel.conf
 %config(noreplace) %verify(not md5 mtime size) /etc/pam.d/ofmipd
