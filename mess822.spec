@@ -1,5 +1,5 @@
 Summary:	Collection of utilities for parsing Internet mail messages
-Summary(pl):	Zestaw narzêdzi do przetwarzania internetowych listów elektronicznych
+Summary(pl.UTF-8):   Zestaw narzÄ™dzi do przetwarzania internetowych listÃ³w elektronicznych
 Name:		mess822
 Version:	0.58
 Release:	2
@@ -42,36 +42,36 @@ authorization. Please read README.auth.
 
 Also this package contains patch for $QMAILQUEUE support.
 
-%description -l pl
-Pakiet mess822 zawiera kilka aplikacji dzia³aj±cych z qmailem:
-- ofmipd przepisuje wiadomo¶ci od prymitywnych klientów. Obs³uguje
-  bazê danych rozpoznawanych nadawców i linii From, korzystaj±c z cdb w
+%description -l pl.UTF-8
+Pakiet mess822 zawiera kilka aplikacji dziaÅ‚ajÄ…cych z qmailem:
+- ofmipd przepisuje wiadomoÅ›ci od prymitywnych klientÃ³w. ObsÅ‚uguje
+  bazÄ™ danych rozpoznawanych nadawcÃ³w i linii From, korzystajÄ…c z cdb w
   celu szybkiego wyszukiwania.
 - new-inject to eksperymentalna nowa wersja programu qmail-inject.
-  Zawiera elastyczny mechanizm przepisywania nazw hostów sterowany przez
-  u¿ytkownika.
-- iftocc mo¿e byæ u¿ywany w plikach .qmail. Sprawdza, czy znany adres
+  Zawiera elastyczny mechanizm przepisywania nazw hostÃ³w sterowany przez
+  uÅ¼ytkownika.
+- iftocc moÅ¼e byÄ‡ uÅ¼ywany w plikach .qmail. Sprawdza, czy znany adres
   jest wymieniony w To lub Cc.
-- 822header, 822field, 822date i 822received wyci±gaj± ró¿ne
-  informacje z wiadomo¶ci.
-- 822print konwertuje wiadomo¶æ do formatu ³atwiejszego do
+- 822header, 822field, 822date i 822received wyciÄ…gajÄ… rÃ³Å¼ne
+  informacje z wiadomoÅ›ci.
+- 822print konwertuje wiadomoÅ›Ä‡ do formatu Å‚atwiejszego do
   przeczytania.
 
-Dodatkowo pakiet zawiera obs³ugê autoryzacji LOGIN i PLAIN. Proszê
-przeczytaæ plik README.auth.
+Dodatkowo pakiet zawiera obsÅ‚ugÄ™ autoryzacji LOGIN i PLAIN. ProszÄ™
+przeczytaÄ‡ plik README.auth.
 
-Ten pakiet zawiera tak¿e ³atê do obs³ugi $QMAILQUEUE.
+Ten pakiet zawiera takÅ¼e Å‚atÄ™ do obsÅ‚ugi $QMAILQUEUE.
 
 %package devel
 Summary:	mess822 - Development header files and libraries
-Summary(pl):	mess822 - pliki nag³ówkowe i biblioteki programistyczne
+Summary(pl.UTF-8):   mess822 - pliki nagÅ‚Ã³wkowe i biblioteki programistyczne
 Group:		Development/Libraries
 
 %description devel
 This package contains the development header files and libraries.
 
-%description devel -l pl
-Ten pakiet zawiera pliki nag³ówkowe i biblioteki programistyczne.
+%description devel -l pl.UTF-8
+Ten pakiet zawiera pliki nagÅ‚Ã³wkowe i biblioteki programistyczne.
 
 %prep
 %setup -q -a1
