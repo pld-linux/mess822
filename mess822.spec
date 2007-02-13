@@ -1,5 +1,5 @@
 Summary:	Collection of utilities for parsing Internet mail messages
-Summary(pl.UTF-8):   Zestaw narzędzi do przetwarzania internetowych listów elektronicznych
+Summary(pl.UTF-8):	Zestaw narzędzi do przetwarzania internetowych listów elektronicznych
 Name:		mess822
 Version:	0.58
 Release:	2
@@ -64,7 +64,7 @@ Ten pakiet zawiera także łatę do obsługi $QMAILQUEUE.
 
 %package devel
 Summary:	mess822 - Development header files and libraries
-Summary(pl.UTF-8):   mess822 - pliki nagłówkowe i biblioteki programistyczne
+Summary(pl.UTF-8):	mess822 - pliki nagłówkowe i biblioteki programistyczne
 Group:		Development/Libraries
 
 %description devel
