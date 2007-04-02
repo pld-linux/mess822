@@ -198,7 +198,7 @@ fi
 %attr(700,root,root) %dir %{supervise}/log/supervise
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %ghost %{supervise}/log/supervise/*
 %attr(755,qmaill,root) %dir /var/log/ofmipd
-%attr(750,root,root) %dir /var/log/archiv/ofmipd
+%attr(750,root,root) %dir /var/log/archive/ofmipd
 
 %{tcprules}/Makefile.ofmip
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{tcprules}/tcp.ofmip
