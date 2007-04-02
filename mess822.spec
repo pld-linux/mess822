@@ -2,7 +2,7 @@ Summary:	Collection of utilities for parsing Internet mail messages
 Summary(pl.UTF-8):	Zestaw narzędzi do przetwarzania internetowych listów elektronicznych
 Name:		mess822
 Version:	0.58
-Release:	2
+Release:	3
 License:	http://cr.yp.to/distributors.html (free to use)
 Group:		Networking/Daemons
 Source0:	http://cr.yp.to/software/%{name}-%{version}.tar.gz
@@ -110,7 +110,7 @@ PV=`basename %{SOURCE1}`
 cd ${PV%.tar.bz2}
 
 for d in '' log; do
-	install -d $RPM_BUILD_ROOT/var/log/{,archiv/}/ofmipd/$d
+	install -d $RPM_BUILD_ROOT/var/log/{,archive/}/ofmipd/$d
 
 	install -d $RPM_BUILD_ROOT%{supervise}/$d
 	install -d $RPM_BUILD_ROOT%{supervise}/$d/supervise
