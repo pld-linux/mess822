@@ -75,10 +75,10 @@ Ten pakiet zawiera pliki nagłówkowe i biblioteki programistyczne.
 
 %prep
 %setup -q -a1
-%patch0 -p1
-%patch1 -p1
-%patch2 -p0
-%patch3 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p0
+%patch -P3 -p1
 
 %build
 echo '%{__cc} %{rpmcflags}' > conf-cc
